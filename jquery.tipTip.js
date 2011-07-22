@@ -38,7 +38,7 @@
 	 	var opts = $.extend(defaults, options);
 	 	
 	 	// Setup tip tip elements and render them to the DOM
-	 	if($("#tiptip_holder").length <= 0){
+	 	/*if($("#tiptip_holder").length <= 0){
 	 		var tiptip_holder = $('<div id="tiptip_holder" style="max-width:'+ opts.maxWidth +';"></div>');
 			var tiptip_content = $('<div id="tiptip_content"></div>');
 			var tiptip_arrow = $('<div id="tiptip_arrow"></div>');
@@ -47,7 +47,13 @@
 			var tiptip_holder = $("#tiptip_holder");
 			var tiptip_content = $("#tiptip_content");
 			var tiptip_arrow = $("#tiptip_arrow");
-		}
+		}*/
+
+		// modified to handle more than one tooltip
+ 		var tiptip_holder = $('<div id="tiptip_holder" style="max-width:'+ opts.maxWidth +';"></div>');
+		var tiptip_content = $('<div id="tiptip_content"></div>');
+		var tiptip_arrow = $('<div id="tiptip_arrow"></div>');
+		$("body").append(tiptip_holder.html(tiptip_content).prepend(tiptip_arrow.html('<div id="tiptip_arrow_inner"></div>')));
 		
 		return this.each(function(){
 			var org_elem = $(this);
@@ -56,7 +62,9 @@
 			} else {
 				var org_title = org_elem.attr(opts.attribute);
 			}
-			if(org_title != ""){
+			// previously, it was org_title != "", changing this to undefined fixes
+			// the error that gives an empty box
+			if(org_title != undefined){
 				if(!opts.content){
 					org_elem.removeAttr(opts.attribute); //remove original Attribute
 				}
